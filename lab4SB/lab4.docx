@@ -1,0 +1,132 @@
+LAB4 SB
+
+#include <stdio.h>
+
+void dump (void *p, int n) {
+  unsigned char *p1 = p;
+  while (n--) {
+    printf("%p - %02x\n", p1, *p1);
+    p1++;
+  }
+}
+
+int main (void) {
+  char c = 150;
+  short s = -3;
+  int i = -151;
+  printf("dump de c: \n");
+  dump(&c, sizeof(c));
+  printf("dump de s: \n");
+  dump(&s, sizeof(s));
+  printf("dump de i: \n");
+  dump(&i, sizeof(i));
+  return 0;
+}
+
+
+
+O valor de 150 é maior do que um signed char, então ele será representado como um numero negativo -> 150 - 256 = -106
+
+Que em hexadecimal é 0x96
+
+
+
+Já a variável short s = -3, será representada achando o inverso dele em binário, depois invertendo seus bits e somando 1 no final. Logo -> 3 em binário é 0000 0011 -> quando invertemos os bits ele fica 1111 1100 -> agora quando adicionamos 1 fica 1111 1101 
+
+Esse valor em hexadecimal	-> 0xfffd
+
+
+
+Já a variável i = -151, é feito um processo similar -> primeiro fazemos 151 em binário que será -> 0000 0000 1001 0111
+
+Invertendo temos -> 1111 1111 0110 1000
+
+Adicionando 1 -> 1111 1111 0110 1001
+
+Em hexadecimal -> 0xffffff69
+
+
+
+EX 2)
+
+Como um short tem um intervalo de -32768 a 32767, o valor da variável esta dentro desse intervalo. 
+
+Faremos igual ao exercício anterior, chegando em:
+
+0x8003
+
+
+Já a variável k, sendo unsigned short ela vai de 0 a 65535. Logo esta dentro do intervalo também -> Logo é apenas necessário passar para hexadecimal
+
+Que será igual a 0x8003
+
+
+
+EX 3) 
+
+
+A função xbyte serve para pegar um byte específico de um número maior de 32 bits e devolver esse valor como um número com sinal
+
+Primeiro, a gente desloca os bits para a direita, até o byte que queremos ficar na posição certa. Depois, usamos uma máscara (0xFF) para isolar só esse byte.
+
+Depois de pegar o byte, precisamos garantir que ele seja tratado corretamente, especialmente se for um número negativo. Se o byte tiver um valor negativo, fazemos um truque com deslocamentos de bits para "espalhar" o sinal por todos os 32 bits, mantendo o valor certo no final.
+
+
+
+
+EX 4)
+
+
+No primeiro programa, o x é um int com sinal, com o valor 0xffffffff. Mas quando um int com sinal vê 0xffffffff significa -1, porque em complemento de dois, todos os bits 1 significam -1.
+
+Então, x = -1 e y = 2
+
+Logo x é menor que y
+
+
+No segundo programa, o x é um unsigned int. Agora, 0xffffffff é interpretado como um número grande: 4,294,967,295 (o maior valor que um unsigned int de 32 bits pode ter)
+
+Logo x é maior que y
+
+
+No terceiro programa o valor de x é 0xffffffff, que para um int com sinal é -1. Já y é 2, quando o programa faz a comparação x < y, como y é unsigned, o x é automaticamente convertido para unsigned também. Logo, -1 vira 4,294,967,295 (porque todos os bits ficam como 1 no unsigned) 
+
+Logo x é maior que y também
+
+
+EX 5)
+
+
+Quando você coloca signed char sc = -1,  o valor -1 em binário é 1111 1111 (8 bits). Quando a gente passa isso para um unsigned int ui, ele expande esse valor para 32 bits, mantendo todos os bits iguais a 1. Logo, ui acaba ficando com o valor 0xFFFFFFFF.
+
+
+Por isso, quando usamos o dump, ele mostra ff ff ff ff , mostrando que o valor original -1 foi "estendido" para 32 bits como 4294967295 (o maior número que cabe em um unsigned int).
+
+Código utilizado:
+
+#include <stdio.h>
+
+void dump(void *p, int n) {
+  unsigned char *p1 = p;
+  while (n--) {
+    printf("%p - %02x\n", p1, *p1);
+    p1++;
+  }
+}
+
+int main(void) {
+  signed char sc = -1;
+  unsigned int ui = sc;
+
+  printf("sc = %d, ui = %u\n", sc, ui);
+  printf("Representação interna de ui:\n");
+  dump(&ui, sizeof(ui));
+
+  return 0;
+}
+
+
+
+
+
+

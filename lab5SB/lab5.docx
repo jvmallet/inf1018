@@ -1,0 +1,142 @@
+LAB 5 SB
+
+
+1)
+
+b é um array de inteiros e possui 4 bytes, contendo 2 elementos do tipo int. Será armazenado de 4 em 4 bytes.
+
+
+Como a é um array bidimensional, todos os elementos da primeira linha são armazenados contiguamente primeiro, seguidos pelos elementos da segunda linha, e assim por diante
+
+
+O array a é do tipo short que possui 2 bytes cada, como são 6 elementos, seu total é de 12 bytes
+
+Vendo pelo código, ficamos com esses elementos no a
+
+a[0][0] = 0;  // 3 * 0 + 0 = 0
+a[0][1] = 1;  // 3 * 0 + 1 = 1
+a[0][2] = 2;  // 3 * 0 + 2 = 2
+a[1][0] = 3;  // 3 * 1 + 0 = 3
+a[1][1] = 4;  // 3 * 1 + 1 = 4
+a[1][2] = 5;  // 3 * 1 + 2 = 5
+
+
+Como são 12 bytes, e cada elemento possui 2 bytes, o programa ira mostrar
+
+00
+00
+01
+00
+02
+00
+03
+00
+04
+00
+05
+00
+
+
+
+Já no b como aso 2 elementos de 4 bytes cada:
+
+00
+00
+00
+00
+00
+00
+00
+01
+
+
+
+2)
+
+O inteiro a possui 4 bytes e é organizado na memória, logo depois vem 2 bytes do short b, já o int c não pode ser armazenado nessa ordem, logo é necessário fazer o padding de 2 bytes para o inteiro c começar no byte 8.
+
+Logo o programa mostrara:
+
+
+0x16b7570a0 - a4
+0x16b7570a1 - a3
+0x16b7570a2 - a2
+0x16b7570a3 - a1
+0x16b7570a4 - b2
+0x16b7570a5 - b1
+0x16b7570a6 - 00
+0x16b7570a7 - 00
+0x16b7570a8 - c4
+0x16b7570a9 - c3
+0x16b7570aa - c2
+0x16b7570ab - c1
+
+Assim vemos que o byte 6 e 7 são preenchidos por 00
+
+
+3)
+
+a)
+
+Primeiro será o primeiro byte do char c1, logo apps é necessário um padding de 3 bytes para chegar ao 4 e assim armazenar o int i e logo após o char c2.
+
+
+É feito um padding de 3 bytes para garantir a alocação de um próximo elemento.
+
+
+b)
+
+O long é armazenado nos primeiros 8 bytes, logo depois vem um char e um padding de mais 7 bytes para dar espaço para um próximo elemento
+
+c)
+
+
+Será armazenado o int e os 2 chars em sequencia, logo depois um padding de 2 para caber um próximo elemento
+
+
+
+e)
+
+Serão armazenados os 3 char em sequencia sem necessidade de nenhum padding, pois se tiver um próximo char ele será armazenado na sequencia
+
+
+f)
+
+Serão armazenados 2 bytes do short depois um padding de 2 para alocar o inteiro, logo após os 3 char. Depois um padding de 1 e será alocado o outro short com um padding de 2 no final para alocar um prox elemento.
+
+
+g)
+
+Uma union utiliza apenas o espaço de memória suficiente para armazenar o seu maior membro
+
+Todos os membros compartilham o mesmo espaço de memória
+
+
+Logo fica organizado:
+
+Byte 1: i/c[0]
+Byte 2: i/c[1]
+Byte 3: i/c[2]
+Byte 4: i/c[3]
+Byte 5: c[4]
+
+Mais 3 bytes de padding para espaço para o próximo
+
+
+h)
+
+Parecido com o anterior, teremos:
+
+Byte 1: s/c[0]
+Byte 2: s/c[1]
+Byte 3: c[2]
+Byte 4: c[3]
+Byte 5: c[4]
+
+Mais 1 byte para padding.
+
+
+
+
+
+
