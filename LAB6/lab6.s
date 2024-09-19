@@ -27,25 +27,34 @@ main:
 
   movl  $0, %ebx  /* ebx = 0; */
   movq  $nums, %r12  /* r12 = &nums */
+  movl $0 ,%ecx  # inicializa ecx com o valor = 0
 
 L1:
   cmpl  $4, %ebx  /* if (ebx == 4) ? */
   je  L2          /* goto L2 */
 
-  movl  (%r12), %eax    /* eax = *r12 */
 
-/*************************************************************/
-/* este trecho imprime o valor de %eax (estraga %eax)  */
+  movl  (%r12), %eax    /* eax = *r12  -> eax seria o nums[i]  */ 
+  addl %eax, %ecx # move o valor atual de eax para o contador ecx
+
+
+  addl $1,%ebx
+  addq $4, %r12 
+
+    
+  jmp L1         /* goto L1; */
+ 
+
+
+L2:
+
   movq    $Sf, %rdi    /* primeiro parametro (ponteiro)*/
   movl    %eax, %esi   /* segundo parametro  (inteiro) */
   call  printf       /* chama a funcao da biblioteca */
-/*************************************************************/
 
-  addl  $1, %ebx  /* ebx += 1; */
-  addq  $4, %r12  /* r12 += 4; */
-  jmp  L1         /* goto L1; */
 
-L2:  
+  
+  
 /***************************************************************/
 /* mantenha este trecho aqui e nao mexa - finalizacao!!!!      */
   movq  $0, %rax  /* rax = 0  (valor de retorno) */

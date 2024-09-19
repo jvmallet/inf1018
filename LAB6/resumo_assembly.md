@@ -202,8 +202,15 @@ Aqui está uma representação da pilha antes e depois da subtração de 16 de %
 
 
 
+- O epílogo:
 
 
+    movq  -8(%rbp), %rbx
+    movq  -16(%rbp), %r12
+    leave
+    ret
+
+    Restaura os valores de %rbx e %r12, desfaz o stack frame com leave, e retorna com ret.
 
 
 
