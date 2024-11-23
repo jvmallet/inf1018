@@ -3,6 +3,5 @@
 
 foo:
     movl %edi, %eax
-    addl $1, %eax
-    ret 
-    
+    jmp add
+    ret
