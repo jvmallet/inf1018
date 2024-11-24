@@ -1,14 +1,18 @@
 #include <stdio.h>
-#include <math.h>
 
-extern float foo1(float a, float b);
+// Declaração da função em Assembly
+extern double foo2(float a, float b);
 
 int main() {
-    float a = 1.57079632679;  // Aproximadamente PI/2
-    float b = 1.0;
+    // Valores de entrada
+    float a = 0.785398;  // Aproximadamente PI/4 em radianos
+    float b = 1.570796;  // Aproximadamente PI/2 em radianos
 
-    float result = foo1(a, b);
-    printf("foo1(%.2f, %.2f) = %.2f\n", a, b, result);
+    // Chama a função foo2
+    double result = foo2(a, b);
+
+    // Exibe o resultado
+    printf("foo2(%.6f, %.6f) = %.6f\n", a, b, result);
 
     return 0;
 }
