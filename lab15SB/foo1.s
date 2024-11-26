@@ -1,21 +1,30 @@
+float foo1 (float a, float b) {
+  return sin(a) + b;
+}
+
+
 .text
 .globl foo1
 
 foo1:
     pushq %rbp
-    movq %rsp, %rbp  # abre espaco na pilha
-    subq $16, %rsp
+    movq %rsp,%rbp
+    subq $16,%rsp
 
+    cvtss2sd %xmm0,%xmm0 
+    cvtss2sd %xmm1,%xmm1
 
-    cvtss2sd %xmm0, %xmm0   
-    call sin   
+    movsd %xmm1, -8(%rbp)
 
+    call sin
 
-    cvtsd2ss %xmm1, %xmm1       
-    addss %xmm1, %xmm0
+    movsd -8(%rbp) , %xmm1
+    addsd %xmm1,%xmm0
 
     cvtsd2ss %xmm0,%xmm0
 
+    leave 
+    ret
 
-    leave        
-    ret                        
+    
+

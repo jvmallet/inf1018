@@ -1,43 +1,53 @@
-.text
+double foo3 (double *a, int n) {
+  int i;
+  double r = 0.0;
+  for (i=0; i<n; i++) {
+    r += sin(*a);
+    a++;
+  }
+  return r;
+}
 
-.globl foo3
+.text
+.globl foo3 
 
 foo3:
     pushq %rbp
-    movq %rsp, %rbp
+    movq %rsp,%rbp
     subq $32, %rsp
-    
-    movq $0, -8(%rbp)
-    movsd -8(%rbp), %xmm1
+
     movl $0, %ecx
-    
+    movsd zero(%rip),%xmm1
+
     loop:
-        cmpl %esi, %ecx
-        jge fim
-        
-        movsd (%rdi), %xmm0
-        
+        cmpl %esi,%ecx
+        jge loop_end
+
+        movsd (%rdi), %xmm0 
+
         movq %rdi, -8(%rbp)
         movsd %xmm1, -16(%rbp)
         movl %ecx, -20(%rbp)
-        movl %esi, -24(%rbp)
-        
+        movq %esi, -24(%rbp)
+
         call sin 
+
+        movq -8(%rbp), %rdi
+        movsd -16(%rbp),%xmm1
+        movl -20(%rbp),%ecx 
+        movq -24(%rbp),%esi
+
+        addsd %xmm0,%xmm1 
+
+        addq $8,%rdi
+        addl $1, %ecx 
+        jmp loop 
+
+    loop_end:
         
-        movq -8(%rbp), %rdi # recupera o ponteiro
-        movsd -16(%rbp), %xmm1 # recupera r
-        movl -20(%rbp), %ecx # recupera i
-        movl -24(%rbp), %esi # recupera n
-        
-        
-        addsd %xmm0, %xmm1
-        
-        addq $8, %rdi
-        addl $1, %ecx
-        jmp loop
-        
-    fim:
-        movsd %xmm1, %xmm0
+        movsd %xmm1, %xmm0 
         leave
         ret
 
+zero:
+    .double 0.0
